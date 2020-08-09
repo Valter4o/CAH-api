@@ -12,7 +12,12 @@ const config = {
     authCookie,
     secret,
   },
-  production: {},
+  production: {
+    posrt,
+    dbUrl,
+    authCookie,
+    secret,
+  },
 };
 
 module.exports = config[env];
