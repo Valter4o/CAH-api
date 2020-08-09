@@ -1,10 +1,14 @@
-const BlackCard = require("../models/BlackCard");
+const getRandomCards = require("./helpers/getRandomCards");
+const trimText = require("./helpers/trimText");
 
 module.exports = {
-  get: (req, res) => {
+  get: async (req, res) => {
+    let question = await getRandomCards(1, "black");
+
+    let { text, _id: id, pickTwo } = question[0];
+
     res.json({
-      question:
-        "Instead of coal, Santa now gives the bad children __________________.",
+      question: { text, id, pickTwo },
     });
   },
   post: async (req, res) => {
@@ -21,7 +25,7 @@ module.exports = {
       res.send("done");
     } catch (err) {
       console.log(err);
-      res.send('error')
+      res.send("error");
     }
   },
 };

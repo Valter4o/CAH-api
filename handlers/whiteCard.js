@@ -1,45 +1,31 @@
-const WhiteCard = require("../models/WhiteCard");
+const getRandomCards = require("./helpers/getRandomCards");
+const trimText = require("./helpers/trimText");
 
 module.exports = {
   get: async (req, res) => {
-    let arr = await WhiteCard.findRandom(
-      {},
-      {},
-      { limit: 69, skip: Math.random() * 69 }
-    ).exec(function (err, cards) {
-      console.log(cards);
+    let arr = await getRandomCards(10, "white");
 
-      return cards;
-    });
+    const top = trimText(arr.slice(0, 5));
+    const bottom = trimText(arr.slice(5));
 
     res.json({
-      top: [
-        "Illegal immigrants",
-        "Murder",
-        "Invading Poland",
-        "Nazis",
-        "Bees?",
-      ],
-      bottom: [
-        "An unwanted pregnancy",
-        "Nicolas Cage",
-        "Italians",
-        "Stalin",
-        "Dick fingers",
-      ],
+      top,
+      bottom,
     });
   },
   post: async (req, res) => {
     const { text } = req.body;
-    try {
-      const newCard = new WhiteCard({ text });
+    if (text) {
+      try {
+        const newCard = new WhiteCard({ text });
 
-      await newCard.save();
+        await newCard.save();
 
-      res.send("done");
-    } catch (err) {
-      console.log(err);
-      res.send("error");
+        res.send("done");
+      } catch (err) {
+        console.log(err);
+        res.send("error");
+      }
     }
   },
 };
