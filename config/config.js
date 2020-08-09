@@ -13,7 +13,7 @@ const config = {
     secret,
   },
   production: {
-    posrt,
+    port,
     dbUrl,
     authCookie,
     secret,
