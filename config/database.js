@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const dbString = require("./config").dbUrl + "TODO:Collection";
+const dbString = require("./config").dbUrl;
 const rdyString = `${"*".repeat(10)}Database is Ready${"*".repeat(10)}`;
 
 module.exports = () => {
@@ -10,6 +10,9 @@ module.exports = () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     },
-    console.log(rdyString)
+    (err) => {
+      if (err) console.log(err);
+      else console.log(rdyString);
+    }
   );
 };
