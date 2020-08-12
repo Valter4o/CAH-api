@@ -17,7 +17,7 @@ module.exports = {
       }).lean();
 
       if (!user) {
-        return errorSender(res, "User not found");
+        return errorSender(res, "Invalid credentials");
       }
 
       const isValidPass = new User(user).passwordMatch(password);
@@ -34,12 +34,12 @@ module.exports = {
           userInfo,
         });
       } else {
-        return errorSender(res, "Wrong pass");
+        return errorSender(res, "Invalid credentials");
       }
     } catch (err) {
       console.log(err);
 
-      return errorSender(res, "Something went wrong");
+      return errorSender(res, "Invalid credentials");
     }
   },
   register: async (req, res) => {
