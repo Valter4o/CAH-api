@@ -1,5 +1,5 @@
 const { Schema, model: Model } = require("mongoose");
-const { String, Boolean, ObjectId } = Schema.Types;
+const { String, Boolean, ObjectId, Object } = Schema.Types;
 
 const gameSchema = new Schema({
   name: {
@@ -39,12 +39,9 @@ const gameSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  players: [
-    {
-      id: { type: ObjectId },
-      username: { type: String },
-    },
-  ],
+  tsar: {
+    type: String,
+  },
 });
 
 module.exports = new Model("Game", gameSchema);
