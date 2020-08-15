@@ -1,7 +1,9 @@
 const startGame = require("./startGame");
 
 module.exports = (games, { cardId, gameId }) => {
-  games[gameId].tsarInd++;
+  games[gameId].tsarInd === games[gameId].players.length - 1
+    ? (games[gameId].tsarInd = 0)
+    : games[gameId].tsarInd++;
 
   const winner = games[gameId].selectedCards.find((c) => c.id === cardId)
     .username;
@@ -19,7 +21,7 @@ module.exports = (games, { cardId, gameId }) => {
       });
     }
     setTimeout(() => {
-      startGame(game, { gameId });
+      startGame(games, { gameId });
     }, 3000);
   });
 };

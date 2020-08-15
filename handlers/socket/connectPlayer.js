@@ -6,7 +6,7 @@ module.exports = async function (socket, games, { gameId, userId, username }) {
 
     const newPlayer = {
       id: userId,
-      score:0,
+      score: 0,
       username,
       socket,
       isTsar: false,
@@ -14,7 +14,7 @@ module.exports = async function (socket, games, { gameId, userId, username }) {
 
     if (!games.hasOwnProperty(gameId)) {
       games[gameId] = {
-        tsarInd:1,
+        tsarInd: 1,
         players: [newPlayer],
         chat: [],
         ...dbGame,
@@ -47,7 +47,6 @@ module.exports = async function (socket, games, { gameId, userId, username }) {
         players,
       });
     });
-    
   } catch (err) {
     console.log(err);
   }
