@@ -2,7 +2,8 @@ const connectPlayer = require("./handlers/socket/connectPlayer");
 const disconnectPlayer = require("./handlers/socket/disconnectPlayer");
 const message = require("./handlers/socket/message");
 const startGame = require("./handlers/socket/startGame");
-const getRandomCards = require("./handlers/helpers/getRandomCards");
+const selectCard = require("./handlers/socket/selectCard");
+const tsarSelected = require("./handlers/socket/tsarSelected");
 
 require("./config/database")()
   .then(() => {
@@ -23,11 +24,15 @@ require("./config/database")()
       const messageBinded = message.bind(undefined, games);
       const disconnectPlayerBinded = disconnectPlayer.bind(undefined, games);
       const startGameBinded = startGame.bind(undefined, games);
+      const selectCardBinded = selectCard.bind(undefined, games);
+      const tsarSelectedBinded = tsarSelected.bind(undefined, games);
 
       socket.on("connectPlayer", connectPlayerBinded);
       socket.on("disconnectPlayer", disconnectPlayerBinded);
       socket.on("message", messageBinded);
       socket.on("startGame", startGameBinded);
+      socket.on("selectCard", selectCardBinded);
+      socket.on("tsarSelected", tsarSelectedBinded);
     });
 
     require("./config/express")(app);
