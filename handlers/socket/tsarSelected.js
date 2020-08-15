@@ -1,3 +1,5 @@
+const startGame = require("./startGame");
+
 module.exports = (games, { cardId, gameId }) => {
   games[gameId].tsarInd++;
 
@@ -17,7 +19,7 @@ module.exports = (games, { cardId, gameId }) => {
       });
     }
     setTimeout(() => {
-      startGameBinded({ gameId });
+      startGame(game, { gameId });
     }, 3000);
   });
 };
