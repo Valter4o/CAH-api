@@ -6,6 +6,7 @@ module.exports = async function (socket, games, { gameId, userId, username }) {
 
     const newPlayer = {
       id: userId,
+      score:0,
       username,
       socket,
       isTsar: false,
@@ -13,6 +14,7 @@ module.exports = async function (socket, games, { gameId, userId, username }) {
 
     if (!games.hasOwnProperty(gameId)) {
       games[gameId] = {
+        tsarInd:1,
         players: [newPlayer],
         chat: [],
         ...dbGame,
@@ -24,10 +26,10 @@ module.exports = async function (socket, games, { gameId, userId, username }) {
       message: `${username} just joined the game`,
       sender: "Shefa Server",
     });
-    if(games[gameId].isStarted){
-      const gameData={
-        isStarted:true,
-        message:'Wait next Round'
+    if (games[gameId].isStarted) {
+      const gameData = {
+        isStarted: true,
+        message: "Wait next Round",
       };
       socket.emit("reconected", { gameData });
     }
@@ -35,7 +37,17 @@ module.exports = async function (socket, games, { gameId, userId, username }) {
       p.socket.emit("message", {
         chat: games[gameId].chat,
       });
+
+      const players = [];
+      games[gameId].players.forEach(({ socket, ...rest }) => {
+        players.push(rest);
+      });
+
+      p.socket.emit("players", {
+        players,
+      });
     });
+    
   } catch (err) {
     console.log(err);
   }
