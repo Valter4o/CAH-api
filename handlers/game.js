@@ -37,4 +37,9 @@ module.exports = {
       res.status(400);
     }
   },
+  deleteGame: async (req, res) => {
+    const { id } = req.body;
+    await Game.deleteOne({ _id: id });
+    res.status(200).send();
+  },
 };
