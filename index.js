@@ -1,9 +1,9 @@
-const connectPlayer = require("./handlers/socket/connectPlayer");
-const disconnectPlayer = require("./handlers/socket/disconnectPlayer");
-const message = require("./handlers/socket/message");
-const startGame = require("./handlers/socket/startGame");
-const selectCard = require("./handlers/socket/selectCard");
-const tsarSelected = require("./handlers/socket/tsarSelected");
+const connectPlayer = require("./socket/connectPlayer");
+const disconnectPlayer = require("./socket/disconnectPlayer");
+const message = require("./socket/message");
+const startGame = require("./socket/startGame");
+const selectCard = require("./socket/selectCard");
+const tsarSelected = require("./socket/tsarSelected");
 
 require("./config/database")()
   .then(() => {

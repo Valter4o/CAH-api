@@ -1,10 +1,11 @@
-const getRandomCards = require("../helpers/getRandomCards");
+const getRandomCards = require("../handlers/helpers/getRandomCards");
+const emitToAll = require("./helpers/emitToAll");
 
 module.exports = async (games, { gameId }) => {
   if (games[gameId].players.length >= 3) {
     games[gameId].isStarted = true;
 
-    const question = await getRandomCards(1, "black");
+    const question = await getRandomCards(1, "black", { pickTwo: false });
     const playersCount = games[gameId].players.length - 1;
     let whiteCardsForAll = await getRandomCards(playersCount * 10, "white");
     const tsarInd = games[gameId].tsarInd;
@@ -44,8 +45,14 @@ module.exports = async (games, { gameId }) => {
       message: "You need to be minimum 3 players in order to play the game",
       sender: "Shefa Server",
     });
-    games[gameId].players.forEach(({ socket: s }) => {
-      s.emit("message", { chat: games[gameId].chat });
-    });
+
+    emitToAll(games[gameId].players, [
+      [
+        "message",
+        {
+          chat: games[gameId].chat,
+        },
+      ],
+    ]);
   }
 };

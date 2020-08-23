@@ -1,4 +1,5 @@
-const getRandomCards = require("../helpers/getRandomCards");
+const getRandomCards = require("../handlers/helpers/getRandomCards");
+const emitToAll = require("./helpers/emitToAll");
 
 module.exports = (games, { card, gameId, userId, row, username }) => {
   let selectedCards = games[gameId].selectedCards;
@@ -23,14 +24,22 @@ module.exports = (games, { card, gameId, userId, row, username }) => {
   const newCard = getRandomCards(1, "white")[0];
   player[`${row}Row`].push(newCard);
 
-  games[gameId].players.forEach(({ socket }) => {
-    const players = [];
-    games[gameId].players.forEach(({ socket, ...rest }) => {
-      players.push(rest);
-    });
-
-    socket.emit("players", {
-      players,
-    });
+  const players = [];
+  games[gameId].players.forEach(({ socket, ...rest }) => {
+    players.push(rest);
   });
+  emitToAll(games[gameId].players, [
+    [
+      "message",
+      {
+        chat: games[gameId].chat,
+      },
+    ],
+    [
+      "players",
+      {
+        players,
+      },
+    ],
+  ]);
 };
